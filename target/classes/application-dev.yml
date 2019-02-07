@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: iot-backend
+  jpa:
+    hibernate.ddl-auto: update
+  influxdb:
+    url: http://vps379075.ovh.net:8086
+    username: user
+    password: ~
+    database: test
+    retention-policy: autogen
+

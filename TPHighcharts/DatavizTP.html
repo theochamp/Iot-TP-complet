@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Highcharts</title>
+<––
+	QUESTION 2.1 IMPORTS DES LIBRAIRIES NECESSAIRES
+				
+				
+-->
+</head>
+<body>
+<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+
+<script language="JavaScript">
+var element = document.documentElement;
+var dbName = "examples";
+document.write("<FORM>");
+document.write("<SELECT NAME='SelectMenu' onChange='AllerA(this.form)'>");
+$.getJSON('http://localhost:11041/bdd/getdblist', function (data) { 
+    for (var i=0; i<data.length; i++){
+        document.write("<OPTION>" +data[i]);
+    }
+});
+document.write('</SELECT>');
+document.write('</FORM>');
+// -->
+/**
+ * Load new data depending on the selected min and max
+ */
+ $.getJSON(/** QUESTION 2.2: AJOUTER LE CHEMIN CORRESPONDANT AUX DONNEES */, function (data) {
+// create the chart
+Highcharts.stockChart('container', {
+    rangeSelector: {
+        selected: 3,
+        buttons: [{
+            type: 'minute',
+            count: 10,
+            text: '10min'
+        }, {
+            type: 'hour',
+            count: 1,
+            text: '1hour'
+        },{
+            type: 'day',
+            count: 1,
+            text: '1day'
+        },{
+            type: 'month',
+            count: 1,
+            text: '1month'
+        }, {
+            type: 'all',
+            text: 'All'
+        }]
+    },
+    title: {
+        text: 'Valeur de la température'
+    },
+    series: [{
+        type: 'candlestick',
+        name: 'Evolution de la température au cours du temps ',
+        data: data,
+        dataGrouping: {
+            units: [[
+                'minute',
+                [1, 2, 5, 10, 15, 30]
+            ], [
+                'hour',
+                [1, 2, 3, 4, 6, 8, 12]
+            ], [
+                'day',
+                [1,3,5]
+            ], [
+                'week',
+                [1]
+            ]]
+        }
+        
+    }]
+});
+});
+</script>
+</body>
+</html>
